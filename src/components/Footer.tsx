@@ -32,11 +32,11 @@ export default function Footer() {
               Web It Up <span>24</span>
             </Link>
             <p className="footer-tagline">
-              Digital experiences with timeless character. We design and build high-performance websites, enduring brand systems, and intelligent digital architecture for clients worldwide.
+              Websites, brands, and digital systems built to help ambitious businesses grow. Modern design paired with dependable technical execution.
             </p>
             <div className="atelier-status">
               <span className="atelier-status-dot"></span>
-              <span>Accepting Select Commissions</span>
+              <span>Accepting New Projects</span>
             </div>
             <div>
               <a href="mailto:info@webitup24.com" className="footer-email magnetic-btn">
@@ -47,7 +47,7 @@ export default function Footer() {
 
           <div className="footer-nav">
             <div className="footer-col">
-              <h4>Atelier</h4>
+              <h4>Navigation</h4>
               <ul>
                 <li>
                   <Link 
@@ -56,7 +56,17 @@ export default function Footer() {
                     onClick={(e) => handleScrollTo(e, '#about')}
                     data-scroll-to={pathname === '/' ? '' : undefined}
                   >
-                    Philosophy
+                    About
+                  </Link>
+                </li>
+                <li>
+                  <Link 
+                    href="/#work" 
+                    className="footer-link"
+                    onClick={(e) => handleScrollTo(e, '#work')}
+                    data-scroll-to={pathname === '/' ? '' : undefined}
+                  >
+                    Work
                   </Link>
                 </li>
                 <li>
@@ -66,7 +76,7 @@ export default function Footer() {
                     onClick={(e) => handleScrollTo(e, '#services')}
                     data-scroll-to={pathname === '/' ? '' : undefined}
                   >
-                    Capabilities
+                    Services
                   </Link>
                 </li>
                 <li>
@@ -76,7 +86,7 @@ export default function Footer() {
                     onClick={(e) => handleScrollTo(e, '#process')}
                     data-scroll-to={pathname === '/' ? '' : undefined}
                   >
-                    Methodology
+                    Process
                   </Link>
                 </li>
                 <li>
@@ -86,20 +96,21 @@ export default function Footer() {
                 </li>
                 <li>
                   <Link href="/contact" className="footer-link">
-                    Direct Inquiry
+                    Start a project
                   </Link>
                 </li>
               </ul>
             </div>
 
             <div className="footer-col">
-              <h4>Capabilities</h4>
+              <h4>Services</h4>
               <ul>
-                <li><span className="footer-link" style={{ cursor: 'default' }}>Bespoke Web Design</span></li>
-                <li><span className="footer-link" style={{ cursor: 'default' }}>Next.js Engineering</span></li>
-                <li><span className="footer-link" style={{ cursor: 'default' }}>Search Architecture</span></li>
-                <li><span className="footer-link" style={{ cursor: 'default' }}>Brand Systems</span></li>
-                <li><span className="footer-link" style={{ cursor: 'default' }}>AI & WhatsApp Workflows</span></li>
+                <li><span className="footer-link" style={{ cursor: 'default' }}>Website Design</span></li>
+                <li><span className="footer-link" style={{ cursor: 'default' }}>Website Development</span></li>
+                <li><span className="footer-link" style={{ cursor: 'default' }}>SEO Foundations</span></li>
+                <li><span className="footer-link" style={{ cursor: 'default' }}>Brand Identity</span></li>
+                <li><span className="footer-link" style={{ cursor: 'default' }}>Performance Optimization</span></li>
+                <li><span className="footer-link" style={{ cursor: 'default' }}>AI &amp; WhatsApp Automation</span></li>
               </ul>
             </div>
 
@@ -149,7 +160,7 @@ export default function Footer() {
 
         <div className="footer-bottom">
           <p>&copy; {year} Web It Up 24. All rights reserved.</p>
-          <p className="footer-credit">Neoclassical Character · Precision Engineering</p>
+          <p className="footer-credit">Modern Digital Studio · Web It Up 24</p>
         </div>
       </div>
     </footer>

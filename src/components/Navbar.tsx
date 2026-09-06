@@ -64,7 +64,16 @@ export default function Navbar() {
               onClick={(e) => handleScrollTo(e, '#about')}
               data-scroll-to={pathname === '/' ? '' : undefined}
             >
-              Philosophy
+              About
+            </Link>
+          </li>
+          <li>
+            <Link 
+              href="/#work" 
+              onClick={(e) => handleScrollTo(e, '#work')}
+              data-scroll-to={pathname === '/' ? '' : undefined}
+            >
+              Work
             </Link>
           </li>
           <li>
@@ -73,7 +82,7 @@ export default function Navbar() {
               onClick={(e) => handleScrollTo(e, '#services')}
               data-scroll-to={pathname === '/' ? '' : undefined}
             >
-              Capabilities
+              Services
             </Link>
           </li>
           <li>
@@ -82,7 +91,7 @@ export default function Navbar() {
               onClick={(e) => handleScrollTo(e, '#process')}
               data-scroll-to={pathname === '/' ? '' : undefined}
             >
-              Methodology
+              Process
             </Link>
           </li>
           <li>
@@ -92,7 +101,7 @@ export default function Navbar() {
           </li>
           <li>
             <Link href="/contact" className="nav-cta magnetic-btn">
-              Initiate Project
+              Start a project
             </Link>
           </li>
         </ul>
@@ -111,20 +120,20 @@ export default function Navbar() {
         <ul className="mobile-links">
           <li>
             <Link 
-              href="/#hero" 
-              onClick={(e) => { setIsOpen(false); handleScrollTo(e, '#hero'); }}
-              data-scroll-to={pathname === '/' ? '' : undefined}
-            >
-              Atelier
-            </Link>
-          </li>
-          <li>
-            <Link 
               href="/#about" 
               onClick={(e) => { setIsOpen(false); handleScrollTo(e, '#about'); }}
               data-scroll-to={pathname === '/' ? '' : undefined}
             >
-              Philosophy
+              About
+            </Link>
+          </li>
+          <li>
+            <Link 
+              href="/#work" 
+              onClick={(e) => { setIsOpen(false); handleScrollTo(e, '#work'); }}
+              data-scroll-to={pathname === '/' ? '' : undefined}
+            >
+              Work
             </Link>
           </li>
           <li>
@@ -133,7 +142,7 @@ export default function Navbar() {
               onClick={(e) => { setIsOpen(false); handleScrollTo(e, '#services'); }}
               data-scroll-to={pathname === '/' ? '' : undefined}
             >
-              Capabilities
+              Services
             </Link>
           </li>
           <li>
@@ -142,7 +151,7 @@ export default function Navbar() {
               onClick={(e) => { setIsOpen(false); handleScrollTo(e, '#process'); }}
               data-scroll-to={pathname === '/' ? '' : undefined}
             >
-              Methodology
+              Process
             </Link>
           </li>
           <li>
@@ -152,7 +161,7 @@ export default function Navbar() {
           </li>
           <li>
             <Link href="/contact" onClick={() => setIsOpen(false)}>
-              Initiate Project
+              Start a project
             </Link>
           </li>
         </ul>

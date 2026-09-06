@@ -285,7 +285,8 @@ export function initScrollAnimations(scrollContainer: any) {
   scrollReveal('.service-card', { y: 80, scale: 0.95, stagger: 0.1, duration: 1.2 }, '.services-grid');
   scrollReveal('.work-card', { y: 60, scale: 0.98, stagger: 0.1, duration: 1.2 }, '.work-grid');
   scrollReveal('.process-step', { x: -50, opacity: 0, stagger: 0.15, duration: 1.2 }, '.process-timeline');
-  scrollReveal('.testimonial-card', { y: 50, scale: 0.95, stagger: 0.1, duration: 1.2 }, '.testimonial-track');
+  scrollReveal('.why-card', { y: 50, scale: 0.98, stagger: 0.12, duration: 1.2 }, '.why-grid');
+  scrollReveal('.social-card', { y: 40, stagger: 0.1, duration: 1 }, '.social-grid');
 
   // CTA
   const ctaTitle = document.querySelector('.cta-title');
