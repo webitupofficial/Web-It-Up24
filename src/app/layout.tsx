@@ -1,10 +1,11 @@
 import type { Metadata } from 'next';
-import { Outfit, Plus_Jakarta_Sans } from 'next/font/google';
+import { Cormorant_Garamond, Plus_Jakarta_Sans } from 'next/font/google';
 
-const outfit = Outfit({
+const cormorant = Cormorant_Garamond({
   subsets: ['latin'],
   variable: '--font-heading',
-  weight: ['400', '500', '600', '700', '800'],
+  weight: ['400', '500', '600', '700'],
+  style: ['normal', 'italic'],
   display: 'swap',
 });
 
@@ -16,8 +17,8 @@ const plusJakartaSans = Plus_Jakarta_Sans({
 });
 
 export const metadata: Metadata = {
-  title: 'Webitup24 | Crafting Websites That Move People',
-  description: 'Web It Up 24 is a premium digital design studio crafting immersive, conversion-focused websites with stunning motion design and modern aesthetics.',
+  title: 'Web It Up 24 — Digital Experiences with Timeless Character',
+  description: 'Web It Up 24 is a neoclassical digital atelier designing and building high-performance websites, enduring brand identities, and intelligent automated digital systems.',
   icons: {
     icon: '/favicon.ico',
   },
@@ -29,7 +30,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${outfit.variable} ${plusJakartaSans.variable}`}>
+    <html lang="en" className={`${cormorant.variable} ${plusJakartaSans.variable}`}>
       <head>
         {/* Google tag (gtag.js) */}
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-5R5T3YHNQX"></script>

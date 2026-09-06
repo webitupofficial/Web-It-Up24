@@ -17,6 +17,8 @@ import ScrollTrigger from 'gsap/ScrollTrigger';
 export default function ScrollProvider({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const initializedRef = useRef(false);
+  const cursorCleanupRef = useRef<(() => void) | null>(null);
+  const magneticCleanupRef = useRef<(() => void) | null>(null);
 
   useEffect(() => {
     // Only run this sequence once on initial site load
@@ -39,14 +41,14 @@ export default function ScrollProvider({ children }: { children: React.ReactNode
       }
 
       // Step 5: Interactions
-      initCursor();
-      initMagneticButtons();
+      cursorCleanupRef.current = initCursor();
+      magneticCleanupRef.current = initMagneticButtons();
       initDoodleParallax();
 
       // Step 6: Scroll parallax doodles
       if (scrollInstance) {
         const doodles = document.querySelectorAll('.doodle');
-        scrollInstance.on('scroll', (args: any) => {
+        scrollInstance.on('scroll', (args: { scroll: { y: number } }) => {
           const scrollY = args.scroll.y;
           doodles.forEach((dElement, i) => {
             const d = dElement as HTMLElement;
@@ -60,6 +62,11 @@ export default function ScrollProvider({ children }: { children: React.ReactNode
     }
 
     setupExperience();
+
+    return () => {
+      cursorCleanupRef.current?.();
+      magneticCleanupRef.current?.();
+    };
   }, []);
 
   // Update scroll and trigger animations when route changes
@@ -84,16 +91,6 @@ export default function ScrollProvider({ children }: { children: React.ReactNode
         initCounters(container);
       }
       initMagneticButtons();
-      
-      // Update interactive custom cursor listeners
-      const dot = document.getElementById('cursor-dot');
-      if (dot) {
-        const interactiveElements = document.querySelectorAll('a, button, .magnetic-btn, .service-card, .blog-card, .contact-card');
-        interactiveElements.forEach(el => {
-          el.addEventListener('mouseenter', () => dot.classList.add('hovering'));
-          el.addEventListener('mouseleave', () => dot.classList.remove('hovering'));
-        });
-      }
 
       ScrollTrigger.refresh();
     }, 300); // Wait for page transition / DOM update

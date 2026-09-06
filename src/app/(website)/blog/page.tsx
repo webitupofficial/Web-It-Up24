@@ -33,8 +33,8 @@ export default function BlogList() {
     <section className="blog-section" data-scroll-section>
       <div className="container">
         <div className="section-header">
-          <span className="section-label reveal-up">/ Our Journal</span>
-          <h2 className="section-title reveal-up">Insights on Design,<br /><em>Code, & Innovation.</em></h2>
+          <span className="section-label reveal-up">THE JOURNAL</span>
+          <h2 className="section-title reveal-up">Dispatches on Design,<br /><em>Architecture & Commerce.</em></h2>
         </div>
 
         {loading ? (

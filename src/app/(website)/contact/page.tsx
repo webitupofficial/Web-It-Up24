@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { FiMail, FiMapPin, FiPhone, FiSend, FiCheck, FiArrowRight } from 'react-icons/fi';
+import { FiMail, FiMapPin, FiPhone, FiSend, FiArrowRight } from 'react-icons/fi';
 import { useForm, ValidationError } from '@formspree/react';
 import { getLocoScroll } from '@/animations/scroll';
 import ScrollTrigger from 'gsap/ScrollTrigger';
@@ -41,15 +41,15 @@ export default function ContactPage() {
     <section className="contact-section" data-scroll-section>
       <div className="container">
         <div className="section-header">
-          <span className="section-label reveal-up">/ Let's Connect</span>
-          <h2 className="section-title reveal-up">Bring your ideas<br /><em>to life.</em></h2>
+          <span className="section-label reveal-up">INQUIRIES & COMMISSIONS</span>
+          <h2 className="section-title reveal-up">Initiate a dialogue with<br /><em>our atelier.</em></h2>
         </div>
 
         <div className="contact-grid">
           {/* Left Side: Contact Information */}
           <div className="contact-info" data-scroll data-scroll-speed="0.2">
-            <p className="reveal-up" style={{ fontSize: '1.25rem', color: 'var(--text-muted)', lineHeight: '1.7', marginBottom: '1rem' }}>
-              Have a project in mind, want to collaborate, or just curious about our process? Send us a message and let's craft something extraordinary.
+            <p className="reveal-up" style={{ fontSize: '1.2rem', color: 'var(--text-muted)', lineHeight: '1.8', marginBottom: '1rem' }}>
+              Whether you seek to architect a new digital flagship or elevate an existing enterprise, we invite discerning inquiries. Our partners review every brief personally.
             </p>
 
             <div className="contact-card-container">
@@ -59,7 +59,7 @@ export default function ContactPage() {
                   <FiMail />
                 </div>
                 <div className="contact-card-text">
-                  <h4>Email Us</h4>
+                  <h4>Direct Correspondence</h4>
                   <p>info@webitup24.com</p>
                 </div>
               </div>
@@ -70,7 +70,7 @@ export default function ContactPage() {
                   <FiPhone />
                 </div>
                 <div className="contact-card-text">
-                  <h4>Call Us</h4>
+                  <h4>Private Line</h4>
                   <p>+1 (555) 234-5678</p>
                 </div>
               </div>
@@ -81,8 +81,8 @@ export default function ContactPage() {
                   <FiMapPin />
                 </div>
                 <div className="contact-card-text">
-                  <h4>Studio Location</h4>
-                  <p>Everywhere creativity lives</p>
+                  <h4>Global Atelier</h4>
+                  <p>Worldwide Presence</p>
                 </div>
               </div>
             </div>
@@ -172,7 +172,7 @@ export default function ContactPage() {
                     className="btn btn-primary submit-btn magnetic-btn"
                     disabled={state.submitting}
                   >
-                    <span>{state.submitting ? 'Sending...' : 'Send Message'}</span>
+                    <span>{state.submitting ? 'Transmitting...' : 'Transmit Inquiry'}</span>
                     {state.submitting ? (
                       <div className="spinner" style={{
                         width: '18px',
@@ -198,13 +198,13 @@ export default function ContactPage() {
                     <path className="success-checkmark-check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8" />
                   </svg>
                   
-                  <h3>Message Sent!</h3>
-                  <p>Thank you for reaching out. Our collective will review your message and reply within 24 hours.</p>
+                  <h3>Inquiry Received</h3>
+                  <p>Thank you for initiating correspondence. Our studio partners will review your brief and respond within one business day.</p>
                   <button 
                     className="btn btn-outline magnetic-btn"
                     onClick={handleReset}
                   >
-                    <span>Send another message</span>
+                    <span>Transmit Another Brief</span>
                     <FiArrowRight />
                   </button>
                 </div>

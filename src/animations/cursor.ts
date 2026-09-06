@@ -1,198 +1,246 @@
 /**
- * cursor.ts — Custom Cursor Module
- * Glowing dot cursor + golden canvas trail + sparkle burst + magnetic buttons
+ * cursor.ts — Custom Cursor & Magnetic Button Module
+ * Lightweight, GPU-accelerated gold cursor dot with GSAP quickTo interpolation
+ * and robust event delegation across client-side route transitions.
  */
 import gsap from 'gsap';
 
-export function initCursor() {
-  if (typeof window === 'undefined') return;
-  const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
-  if (isTouchDevice) return;
+export function initCursor(): () => void {
+  if (typeof window === 'undefined') return () => {};
+
+  // Check accessibility & device pointer capabilities
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const isCoarse = window.matchMedia('(pointer: coarse)').matches;
+  const hasNoHover = window.matchMedia('(hover: none)').matches;
+  const isTouchDevice = ('ontouchstart' in window || navigator.maxTouchPoints > 0) &&
+    !window.matchMedia('(pointer: fine)').matches;
+
+  if (prefersReducedMotion || isCoarse || hasNoHover || isTouchDevice) {
+    document.documentElement.classList.remove('has-custom-cursor');
+    return () => {};
+  }
 
   const dot = document.getElementById('cursor-dot');
-  const canvas = document.getElementById('cursor-canvas') as HTMLCanvasElement | null;
-  if (!dot || !canvas) return;
+  if (!dot) return () => {};
 
-  const ctx = canvas.getContext('2d');
-  if (!ctx) return;
-
-  let w = canvas.width = window.innerWidth;
-  let h = canvas.height = window.innerHeight;
-
-  let mouseX = w / 2;
-  let mouseY = h / 2;
-  let trailX = w / 2;
-  let trailY = h / 2;
-
-  interface TrailNode {
-    x: number;
-    y: number;
-  }
-  const trail: TrailNode[] = [];
-  const MAX_TRAIL = 30;
-
-  interface Sparkle {
-    x: number;
-    y: number;
-    vx: number;
-    vy: number;
-    life: number;
-    size: number;
-  }
-  const sparkles: Sparkle[] = [];
-
-  // Resize (debounced)
-  let resizeTimer: NodeJS.Timeout;
-  window.addEventListener('resize', () => {
-    clearTimeout(resizeTimer);
-    resizeTimer = setTimeout(() => {
-      w = canvas.width = window.innerWidth;
-      h = canvas.height = window.innerHeight;
-    }, 100);
+  // Initialize dot with GPU 3D translation centering
+  gsap.set(dot, {
+    xPercent: -50,
+    yPercent: -50,
+    force3D: true,
   });
 
-  // Track mouse
-  window.addEventListener('mousemove', (e) => {
-    mouseX = e.clientX;
-    mouseY = e.clientY;
-    dot.style.transform = `translate(${mouseX - 5}px, ${mouseY - 5}px)`;
-  }, { passive: true });
+  // GSAP quickTo creates high-performance reusable tweens for pointer interpolation
+  const xTo = gsap.quickTo(dot, 'x', { duration: 0.12, ease: 'power2.out' });
+  const yTo = gsap.quickTo(dot, 'y', { duration: 0.12, ease: 'power2.out' });
 
-  // Sparkle burst on click
-  window.addEventListener('mousedown', (e) => {
-    dot.style.transform = `translate(${mouseX - 5}px, ${mouseY - 5}px) scale(0.8)`;
-    setTimeout(() => {
-      dot.style.transform = `translate(${mouseX - 5}px, ${mouseY - 5}px) scale(1)`;
-    }, 150);
+  let hasMoved = false;
 
-    for (let i = 0; i < 12; i++) {
-      const angle = Math.random() * Math.PI * 2;
-      const speed = Math.random() * 5 + 2;
-      sparkles.push({
-        x: e.clientX,
-        y: e.clientY,
-        vx: Math.cos(angle) * speed,
-        vy: Math.sin(angle) * speed,
-        life: 1,
-        size: Math.random() * 3 + 1,
-      });
+  const onPointerMove = (e: PointerEvent) => {
+    // Ignore touch pointer types if fired in hybrid setups
+    if (e.pointerType === 'touch') return;
+
+    if (!hasMoved) {
+      hasMoved = true;
+      gsap.set(dot, { x: e.clientX, y: e.clientY });
+      dot.classList.add('is-active');
+      document.documentElement.classList.add('has-custom-cursor');
+    } else {
+      xTo(e.clientX);
+      yTo(e.clientY);
     }
-  }, { passive: true });
-
-  // Hover detection for cursor enlargement
-  const interactiveElements = document.querySelectorAll('a, button, .magnetic-btn, .service-card, .blog-card, .contact-card');
-  interactiveElements.forEach(el => {
-    el.addEventListener('mouseenter', () => dot.classList.add('hovering'));
-    el.addEventListener('mouseleave', () => dot.classList.remove('hovering'));
-  });
-
-  let animationFrameId: number;
-  // Render loop
-  function render() {
-    if (!ctx || !canvas) return;
-    ctx.clearRect(0, 0, w, h);
-
-    // Smooth trail interpolation
-    trailX += (mouseX - trailX) * 0.15;
-    trailY += (mouseY - trailY) * 0.15;
-
-    trail.push({ x: trailX, y: trailY });
-    if (trail.length > MAX_TRAIL) trail.shift();
-
-    // Draw golden trail
-    if (trail.length > 1) {
-      for (let i = 0; i < trail.length - 1; i++) {
-        const t = i / trail.length;
-        ctx.beginPath();
-        ctx.moveTo(trail[i].x, trail[i].y);
-        ctx.lineTo(trail[i + 1].x, trail[i + 1].y);
-        ctx.strokeStyle = `rgba(212, 175, 55, ${t * 0.6})`;
-        ctx.lineWidth = t * 5;
-        ctx.lineCap = 'round';
-        ctx.stroke();
-      }
-    }
-
-    // Render sparkles
-    for (let i = sparkles.length - 1; i >= 0; i--) {
-      const s = sparkles[i];
-      s.x += s.vx;
-      s.y += s.vy;
-      s.vy += 0.08;
-      s.vx *= 0.95; 
-      s.vy *= 0.95;
-      s.life -= 0.02;
-
-      if (s.life <= 0) {
-        sparkles.splice(i, 1);
-      } else {
-        ctx.beginPath();
-        ctx.arc(s.x, s.y, s.size, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(212, 175, 55, ${s.life})`;
-        ctx.fill();
-      }
-    }
-
-    animationFrameId = requestAnimationFrame(render);
-  }
-
-  render();
-
-  return () => {
-    cancelAnimationFrame(animationFrameId);
   };
+
+  const onPointerDown = (e: PointerEvent) => {
+    if (e.pointerType === 'touch') return;
+    dot.classList.add('is-down');
+  };
+
+  const onPointerUp = () => {
+    dot.classList.remove('is-down');
+  };
+
+  const onPointerLeave = () => {
+    dot.classList.remove('is-active');
+  };
+
+  const onPointerEnter = () => {
+    if (hasMoved) {
+      dot.classList.add('is-active');
+    }
+  };
+
+  // Event delegation for interactive hover states across all pages & route changes
+  const INTERACTIVE_SELECTOR = [
+    'a',
+    'button',
+    '[role="button"]',
+    'input',
+    'textarea',
+    'select',
+    '.magnetic-btn',
+    '.service-card',
+    '.blog-card',
+    '.contact-card',
+    '[data-cursor-hover]',
+  ].join(', ');
+
+  const onPointerOver = (e: PointerEvent) => {
+    const target = e.target as Element | null;
+    if (!target) return;
+    if (target.closest(INTERACTIVE_SELECTOR)) {
+      dot.classList.add('hovering');
+    } else {
+      dot.classList.remove('hovering');
+    }
+  };
+
+  const onPointerOut = (e: PointerEvent) => {
+    const nextTarget = e.relatedTarget as Element | null;
+    if (!nextTarget || !nextTarget.closest(INTERACTIVE_SELECTOR)) {
+      dot.classList.remove('hovering');
+    }
+  };
+
+  // Listeners
+  window.addEventListener('pointermove', onPointerMove, { passive: true });
+  window.addEventListener('pointerdown', onPointerDown, { passive: true });
+  window.addEventListener('pointerup', onPointerUp, { passive: true });
+  document.addEventListener('pointerover', onPointerOver, { passive: true });
+  document.addEventListener('pointerout', onPointerOut, { passive: true });
+  document.documentElement.addEventListener('pointerleave', onPointerLeave, { passive: true });
+  document.documentElement.addEventListener('pointerenter', onPointerEnter, { passive: true });
+
+  // Handle dynamic changes to reduced motion preferences
+  const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const onMotionChange = (e: MediaQueryListEvent) => {
+    if (e.matches) {
+      destroy();
+    }
+  };
+  motionQuery.addEventListener('change', onMotionChange);
+
+  const destroy = () => {
+    window.removeEventListener('pointermove', onPointerMove);
+    window.removeEventListener('pointerdown', onPointerDown);
+    window.removeEventListener('pointerup', onPointerUp);
+    document.removeEventListener('pointerover', onPointerOver);
+    document.removeEventListener('pointerout', onPointerOut);
+    document.documentElement.removeEventListener('pointerleave', onPointerLeave);
+    document.documentElement.removeEventListener('pointerenter', onPointerEnter);
+    motionQuery.removeEventListener('change', onMotionChange);
+
+    document.documentElement.classList.remove('has-custom-cursor');
+    dot.classList.remove('is-active', 'hovering', 'is-down');
+    gsap.killTweensOf(dot);
+  };
+
+  return destroy;
 }
 
 /**
- * Magnetic button effect
+ * Magnetic button effect with rAF batching and duplicate attachment protection
  */
-export function initMagneticButtons() {
-  if (typeof window === 'undefined') return;
-  const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
-  if (isTouchDevice) return;
+export function initMagneticButtons(): () => void {
+  if (typeof window === 'undefined') return () => {};
 
-  document.querySelectorAll('.magnetic-btn').forEach(btnElement => {
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const isCoarse = window.matchMedia('(pointer: coarse)').matches;
+  if (prefersReducedMotion || isCoarse) return () => {};
+
+  const cleanups: Array<() => void> = [];
+  const buttons = document.querySelectorAll('.magnetic-btn');
+
+  buttons.forEach((btnElement) => {
     const btn = btnElement as HTMLElement;
+
+    // Guard against attaching duplicate listeners on page navigation
+    if (btn.dataset.magneticBound === 'true') return;
+    btn.dataset.magneticBound = 'true';
+
     // Add inner text wrapper if not exists for parallax effect
     if (!btn.querySelector('.magnetic-text')) {
       const text = btn.innerHTML;
       btn.innerHTML = `<span class="magnetic-text" style="display:inline-flex; align-items:center; gap:0.6rem; transition:transform 0.2s cubic-bezier(0.16, 1, 0.3, 1); pointer-events:none;">${text}</span>`;
     }
-    
+
     const textSpan = btn.querySelector('.magnetic-text') as HTMLElement | null;
 
+    let rafId: number | null = null;
+    let targetX = 0;
+    let targetY = 0;
+    let targetTextX = 0;
+    let targetTextY = 0;
+    let resetTimer: ReturnType<typeof setTimeout> | null = null;
+
+    const strength = 18;
+    const textStrength = 9;
+
+    const applyTransform = () => {
+      btn.style.transform = `translate3d(${targetX}px, ${targetY}px, 0)`;
+      if (textSpan) {
+        textSpan.style.transform = `translate3d(${targetTextX}px, ${targetTextY}px, 0)`;
+      }
+      rafId = null;
+    };
+
     const onMouseMove = (e: MouseEvent) => {
+      if (resetTimer) {
+        clearTimeout(resetTimer);
+        resetTimer = null;
+      }
+
       const rect = btn.getBoundingClientRect();
       const cx = rect.left + rect.width / 2;
       const cy = rect.top + rect.height / 2;
       const dx = e.clientX - cx;
       const dy = e.clientY - cy;
-      
-      const strength = 20; // Container movement strength
-      const textStrength = 10; // Text movement strength (parallax)
 
-      btn.style.transform = `translate(${(dx / rect.width) * strength}px, ${(dy / rect.height) * strength}px)`;
-      if (textSpan) {
-        textSpan.style.transform = `translate(${(dx / rect.width) * textStrength}px, ${(dy / rect.height) * textStrength}px)`;
+      targetX = (dx / rect.width) * strength;
+      targetY = (dy / rect.height) * strength;
+      targetTextX = (dx / rect.width) * textStrength;
+      targetTextY = (dy / rect.height) * textStrength;
+
+      if (!rafId) {
+        rafId = requestAnimationFrame(applyTransform);
       }
     };
 
     const onMouseLeave = () => {
-      btn.style.transform = 'translate(0, 0)';
-      btn.style.transition = 'transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1)';
-      
-      if (textSpan) {
-        textSpan.style.transform = 'translate(0, 0)';
-        textSpan.style.transition = 'transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1)';
+      if (rafId) {
+        cancelAnimationFrame(rafId);
+        rafId = null;
       }
 
-      setTimeout(() => { 
-        btn.style.transition = ''; 
-        if (textSpan) textSpan.style.transition = 'transform 0.2s cubic-bezier(0.16, 1, 0.3, 1)';
-      }, 600);
+      btn.style.transition = 'transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1)';
+      btn.style.transform = 'translate3d(0, 0, 0)';
+
+      if (textSpan) {
+        textSpan.style.transition = 'transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1)';
+        textSpan.style.transform = 'translate3d(0, 0, 0)';
+      }
+
+      resetTimer = setTimeout(() => {
+        btn.style.transition = '';
+        if (textSpan) {
+          textSpan.style.transition = 'transform 0.2s cubic-bezier(0.16, 1, 0.3, 1)';
+        }
+      }, 500);
     };
 
-    btn.addEventListener('mousemove', onMouseMove);
-    btn.addEventListener('mouseleave', onMouseLeave);
+    btn.addEventListener('mousemove', onMouseMove, { passive: true });
+    btn.addEventListener('mouseleave', onMouseLeave, { passive: true });
+
+    cleanups.push(() => {
+      btn.removeEventListener('mousemove', onMouseMove);
+      btn.removeEventListener('mouseleave', onMouseLeave);
+      delete btn.dataset.magneticBound;
+      if (rafId) cancelAnimationFrame(rafId);
+      if (resetTimer) clearTimeout(resetTimer);
+    });
   });
+
+  return () => {
+    cleanups.forEach((c) => c());
+  };
 }

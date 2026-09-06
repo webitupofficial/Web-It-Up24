@@ -21,10 +21,21 @@ export default function Navbar() {
     };
   }, [isOpen]);
 
-  // Handle mobile menu close when route changes
+  // Liquid-glass scroll listener
   useEffect(() => {
-    setIsOpen(false);
-  }, [pathname]);
+    const handleScroll = () => {
+      const nav = document.getElementById('navbar');
+      if (nav) {
+        if (window.scrollY > 30) {
+          nav.classList.add('scrolled');
+        } else {
+          nav.classList.remove('scrolled');
+        }
+      }
+    };
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   const handleScrollTo = (e: React.MouseEvent<HTMLAnchorElement>, targetId: string) => {
     if (pathname === '/') {
@@ -44,7 +55,7 @@ export default function Navbar() {
     <>
       <nav className="navbar" id="navbar">
         <Link href="/" className="logo">
-          Web<span>ItUp24</span>
+          Web It Up <span>24</span>
         </Link>
         <ul className="nav-links">
           <li>
@@ -53,7 +64,7 @@ export default function Navbar() {
               onClick={(e) => handleScrollTo(e, '#about')}
               data-scroll-to={pathname === '/' ? '' : undefined}
             >
-              About
+              Philosophy
             </Link>
           </li>
           <li>
@@ -62,7 +73,7 @@ export default function Navbar() {
               onClick={(e) => handleScrollTo(e, '#services')}
               data-scroll-to={pathname === '/' ? '' : undefined}
             >
-              Services
+              Capabilities
             </Link>
           </li>
           <li>
@@ -71,17 +82,17 @@ export default function Navbar() {
               onClick={(e) => handleScrollTo(e, '#process')}
               data-scroll-to={pathname === '/' ? '' : undefined}
             >
-              Process
+              Methodology
             </Link>
           </li>
           <li>
             <Link href="/blog" className={pathname.startsWith('/blog') ? 'active' : ''}>
-              Blog
+              Journal
             </Link>
           </li>
           <li>
             <Link href="/contact" className="nav-cta magnetic-btn">
-              Let's Talk
+              Initiate Project
             </Link>
           </li>
         </ul>
@@ -101,47 +112,47 @@ export default function Navbar() {
           <li>
             <Link 
               href="/#hero" 
-              onClick={(e) => handleScrollTo(e, '#hero')}
+              onClick={(e) => { setIsOpen(false); handleScrollTo(e, '#hero'); }}
               data-scroll-to={pathname === '/' ? '' : undefined}
             >
-              Home
+              Atelier
             </Link>
           </li>
           <li>
             <Link 
               href="/#about" 
-              onClick={(e) => handleScrollTo(e, '#about')}
+              onClick={(e) => { setIsOpen(false); handleScrollTo(e, '#about'); }}
               data-scroll-to={pathname === '/' ? '' : undefined}
             >
-              About
+              Philosophy
             </Link>
           </li>
           <li>
             <Link 
               href="/#services" 
-              onClick={(e) => handleScrollTo(e, '#services')}
+              onClick={(e) => { setIsOpen(false); handleScrollTo(e, '#services'); }}
               data-scroll-to={pathname === '/' ? '' : undefined}
             >
-              Services
+              Capabilities
             </Link>
           </li>
           <li>
             <Link 
               href="/#process" 
-              onClick={(e) => handleScrollTo(e, '#process')}
+              onClick={(e) => { setIsOpen(false); handleScrollTo(e, '#process'); }}
               data-scroll-to={pathname === '/' ? '' : undefined}
             >
-              Process
+              Methodology
             </Link>
           </li>
           <li>
-            <Link href="/blog">
-              Blog
+            <Link href="/blog" onClick={() => setIsOpen(false)}>
+              Journal
             </Link>
           </li>
           <li>
-            <Link href="/contact">
-              Contact
+            <Link href="/contact" onClick={() => setIsOpen(false)}>
+              Initiate Project
             </Link>
           </li>
         </ul>

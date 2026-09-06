@@ -15,73 +15,81 @@ export default function WebsiteLayout({
       <div id="preloader">
         <div className="preloader-inner">
           <canvas id="preloader-particles"></canvas>
-          <div className="rocket-wrap">
-            <svg className="rocket-svg" viewBox="0 0 80 160" xmlns="http://www.w3.org/2000/svg">
-              <defs>
-                <linearGradient id="rocketGrad" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stopColor="#f5f5f5"/>
-                  <stop offset="100%" stopColor="#d4af37"/>
-                </linearGradient>
-              </defs>
-              {/* Rocket body */}
-              <path d="M40 10 C40 10 20 50 20 100 C20 120 30 130 40 135 C50 130 60 120 60 100 C60 50 40 10 40 10Z" fill="url(#rocketGrad)" stroke="#d4af37" strokeWidth="1.5"/>
-              {/* Window */}
-              <circle cx="40" cy="70" r="10" fill="#0b0b0b" stroke="#d4af37" strokeWidth="1.5"/>
-              <circle cx="40" cy="70" r="5" fill="#d4af37" opacity="0.4"/>
-              {/* Fins */}
-              <path d="M20 100 L8 125 L20 120Z" fill="#d4af37" opacity="0.8"/>
-              <path d="M60 100 L72 125 L60 120Z" fill="#d4af37" opacity="0.8"/>
-              {/* Flame */}
-              <g className="rocket-flame">
-                <ellipse cx="40" cy="145" rx="12" ry="15" fill="#d4af37" opacity="0.9"/>
-                <ellipse cx="40" cy="148" rx="8" ry="12" fill="#f5f5f5" opacity="0.6"/>
-                <ellipse cx="40" cy="150" rx="4" ry="8" fill="#fff" opacity="0.8"/>
+          <div className="rocket-wrap atelier-seal-wrap">
+            <svg className="atelier-seal-svg" viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg">
+              {/* Outer delicate classical border */}
+              <circle cx="80" cy="80" r="74" fill="none" stroke="#C9A227" strokeWidth="1" opacity="0.4" strokeDasharray="3 3"/>
+              <circle cx="80" cy="80" r="68" fill="none" stroke="#C9A227" strokeWidth="1.5" opacity="0.8"/>
+              <circle cx="80" cy="80" r="62" fill="none" stroke="#F1EBDD" strokeWidth="0.75" opacity="0.25"/>
+              
+              {/* Classical 8-point starburst */}
+              <g stroke="#C9A227" strokeWidth="1" opacity="0.6">
+                <line x1="80" y1="20" x2="80" y2="140" />
+                <line x1="20" y1="80" x2="140" y2="80" />
+                <line x1="38" y1="38" x2="122" y2="122" opacity="0.4"/>
+                <line x1="122" y1="38" x2="38" y2="122" opacity="0.4"/>
               </g>
+
+              {/* Central medallion */}
+              <circle cx="80" cy="80" r="32" fill="#101010" stroke="#C9A227" strokeWidth="1.5"/>
+              <circle cx="80" cy="80" r="28" fill="none" stroke="#F1EBDD" strokeWidth="0.5" opacity="0.3"/>
+
+              {/* Classical monogram */}
+              <text x="80" y="86" textAnchor="middle" fill="#F1EBDD" fontSize="18" fontFamily="var(--font-heading), 'Cormorant Garamond', serif" fontWeight="600" letterSpacing="1">
+                W·24
+              </text>
             </svg>
           </div>
           <div className="preloader-text">
-            <span className="preloader-logo">Web <em>It Up 24</em></span>
+            <span className="preloader-logo">Web It Up <em>24</em></span>
+            <span className="preloader-sub">EST. 2024 · DIGITAL ATELIER</span>
           </div>
           <div className="progress-bar-wrap">
             <div className="progress-bar" id="progress-bar"></div>
           </div>
-          <p className="loading-text">Loading Experience...</p>
+          <p className="loading-text">Curating Experience...</p>
         </div>
       </div>
 
       {/* ======= CUSTOM CURSOR ======= */}
-      <div className="cursor-dot" id="cursor-dot"></div>
-      <canvas id="cursor-canvas"></canvas>
+      <div className="cursor-dot" id="cursor-dot" aria-hidden="true">
+        <div className="cursor-dot-inner"></div>
+      </div>
 
       {/* ======= NOISE OVERLAY ======= */}
       <div className="noise-overlay"></div>
 
-      {/* ======= FLOATING DOODLES ======= */}
+      {/* ======= FLOATING ORNAMENTS ======= */}
       <div className="doodles-layer" aria-hidden="true">
-        {/* Arrow doodle */}
-        <svg className="doodle doodle-arrow" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-          <path d="M20 80 L80 20 M60 18 L82 18 L82 40" fill="none" stroke="#d4af37" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" opacity="0.3"/>
-        </svg>
-        {/* Star doodle */}
+        {/* Classical 8-point gold star */}
         <svg className="doodle doodle-star" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-          <polygon points="50,5 61,35 95,35 68,57 79,91 50,70 21,91 32,57 5,35 39,35" fill="none" stroke="#d4af37" strokeWidth="2" opacity="0.25"/>
+          <path d="M50 0 L53 38 L90 20 L62 47 L100 50 L62 53 L90 80 L53 62 L50 100 L47 62 L10 80 L38 53 L0 50 L38 47 L10 20 L47 38 Z" fill="none" stroke="#C9A227" strokeWidth="1.2" opacity="0.22"/>
         </svg>
-        {/* Scribble circle */}
+        {/* Delicate astronomical crosshair */}
+        <svg className="doodle doodle-arrow" viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="40" cy="40" r="24" fill="none" stroke="#C9A227" strokeWidth="1" strokeDasharray="2 4" opacity="0.2"/>
+          <line x1="40" y1="8" x2="40" y2="72" stroke="#C9A227" strokeWidth="1" opacity="0.25"/>
+          <line x1="8" y1="40" x2="72" y2="40" stroke="#C9A227" strokeWidth="1" opacity="0.25"/>
+        </svg>
+        {/* Geometric rosette */}
         <svg className="doodle doodle-circle" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
-          <circle cx="60" cy="60" r="45" fill="none" stroke="#d4af37" strokeWidth="2" strokeDasharray="8 6" opacity="0.2"/>
+          <circle cx="60" cy="60" r="50" fill="none" stroke="#C9A227" strokeWidth="1" opacity="0.18"/>
+          <circle cx="60" cy="60" r="38" fill="none" stroke="#F1EBDD" strokeWidth="0.75" strokeDasharray="4 6" opacity="0.15"/>
+          <circle cx="60" cy="60" r="26" fill="none" stroke="#C9A227" strokeWidth="0.75" opacity="0.2"/>
         </svg>
-        {/* Abstract squiggle */}
-        <svg className="doodle doodle-squiggle" viewBox="0 0 150 60" xmlns="http://www.w3.org/2000/svg">
-          <path d="M10 30 Q30 5 50 30 Q70 55 90 30 Q110 5 130 30 Q140 45 150 30" fill="none" stroke="#d4af37" strokeWidth="2.5" strokeLinecap="round" opacity="0.2"/>
+        {/* Diamond asters */}
+        <svg className="doodle doodle-squiggle" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+          <rect x="25" y="25" width="50" height="50" transform="rotate(45 50 50)" fill="none" stroke="#C9A227" strokeWidth="1" opacity="0.18"/>
+          <circle cx="50" cy="50" r="4" fill="#C9A227" opacity="0.3"/>
         </svg>
-        {/* Small star */}
+        {/* Small classical star */}
         <svg className="doodle doodle-star-small" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg">
-          <path d="M30 5 L33 23 L50 20 L37 30 L45 48 L30 38 L15 48 L23 30 L10 20 L27 23Z" fill="#d4af37" opacity="0.15"/>
+          <path d="M30 4 L34 22 L52 24 L37 34 L43 51 L30 40 L17 51 L23 34 L8 24 L26 22Z" fill="none" stroke="#C9A227" strokeWidth="1" opacity="0.2"/>
         </svg>
-        {/* Cross doodle */}
+        {/* Classical corner bracket ornament */}
         <svg className="doodle doodle-cross" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg">
-          <line x1="15" y1="15" x2="45" y2="45" stroke="#d4af37" strokeWidth="2.5" strokeLinecap="round" opacity="0.2"/>
-          <line x1="45" y1="15" x2="15" y2="45" stroke="#d4af37" strokeWidth="2.5" strokeLinecap="round" opacity="0.2"/>
+          <path d="M12 28 L12 12 L28 12" fill="none" stroke="#C9A227" strokeWidth="1.5" opacity="0.22"/>
+          <path d="M48 32 L48 48 L32 48" fill="none" stroke="#C9A227" strokeWidth="1.5" opacity="0.22"/>
         </svg>
       </div>
 
