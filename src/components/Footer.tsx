@@ -2,165 +2,97 @@
 
 import React from 'react';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
-import { getLocoScroll } from '@/animations/scroll';
+import { socialLinks } from '@/lib/social';
 import { FaFacebookF, FaInstagram, FaGithub } from 'react-icons/fa6';
+import { FiArrowUpRight } from 'react-icons/fi';
 
 export default function Footer() {
-  const pathname = usePathname();
   const year = new Date().getFullYear();
 
-  const handleScrollTo = (e: React.MouseEvent<HTMLAnchorElement>, targetId: string) => {
-    if (pathname === '/') {
-      e.preventDefault();
-      const loco = getLocoScroll();
-      const target = document.querySelector(targetId);
-      if (loco && target) {
-        loco.scrollTo(target, { offset: -80 });
-      } else if (target) {
-        target.scrollIntoView({ behavior: 'smooth' });
-      }
+  const getSocialIcon = (label: string) => {
+    switch (label.toLowerCase()) {
+      case 'facebook':
+        return <FaFacebookF />;
+      case 'instagram':
+        return <FaInstagram />;
+      case 'github':
+        return <FaGithub />;
+      default:
+        return <FiArrowUpRight />;
     }
   };
 
   return (
-    <footer className="footer" id="footer" data-scroll-section>
+    <footer className="footer" id="footer">
       <div className="container">
         <div className="footer-top">
-          <div className="footer-info">
+          <div className="footer-brand">
             <Link href="/" className="logo footer-logo">
-              Web It Up <span>24</span>
+              <span className="logo-mark">Web It Up</span>
+              <span className="logo-accent">24</span>
             </Link>
             <p className="footer-tagline">
-              Websites, brands, and digital systems built to help ambitious businesses grow. Modern design paired with dependable technical execution.
+              International web design and development agency building fast, conversion-focused digital systems for ambitious startups and growing companies.
             </p>
-            <div className="atelier-status">
-              <span className="atelier-status-dot"></span>
-              <span>Accepting New Projects</span>
-            </div>
-            <div>
-              <a href="mailto:info@webitup24.com" className="footer-email magnetic-btn">
+            <div className="footer-contact-quick">
+              <a href="mailto:info@webitup24.com" className="footer-email-link">
                 info@webitup24.com
               </a>
             </div>
           </div>
 
-          <div className="footer-nav">
-            <div className="footer-col">
-              <h4>Navigation</h4>
+          <div className="footer-nav-grid">
+            <div className="footer-nav-col">
+              <span className="footer-col-title">Navigation</span>
               <ul>
-                <li>
-                  <Link 
-                    href="/#about" 
-                    className="footer-link"
-                    onClick={(e) => handleScrollTo(e, '#about')}
-                    data-scroll-to={pathname === '/' ? '' : undefined}
-                  >
-                    About
-                  </Link>
-                </li>
-                <li>
-                  <Link 
-                    href="/#work" 
-                    className="footer-link"
-                    onClick={(e) => handleScrollTo(e, '#work')}
-                    data-scroll-to={pathname === '/' ? '' : undefined}
-                  >
-                    Work
-                  </Link>
-                </li>
-                <li>
-                  <Link 
-                    href="/#services" 
-                    className="footer-link"
-                    onClick={(e) => handleScrollTo(e, '#services')}
-                    data-scroll-to={pathname === '/' ? '' : undefined}
-                  >
-                    Services
-                  </Link>
-                </li>
-                <li>
-                  <Link 
-                    href="/#process" 
-                    className="footer-link"
-                    onClick={(e) => handleScrollTo(e, '#process')}
-                    data-scroll-to={pathname === '/' ? '' : undefined}
-                  >
-                    Process
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/blog" className="footer-link">
-                    Journal
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/contact" className="footer-link">
-                    Start a project
-                  </Link>
-                </li>
+                <li><Link href="/">Home</Link></li>
+                <li><Link href="/services">Services</Link></li>
+                <li><Link href="/#client-stories">Client Stories</Link></li>
+                <li><Link href="/about">About</Link></li>
+                <li><Link href="/blog">Journal</Link></li>
+                <li><Link href="/contact">Contact</Link></li>
               </ul>
             </div>
 
-            <div className="footer-col">
-              <h4>Services</h4>
+            <div className="footer-nav-col">
+              <span className="footer-col-title">Services</span>
               <ul>
-                <li><span className="footer-link" style={{ cursor: 'default' }}>Website Design</span></li>
-                <li><span className="footer-link" style={{ cursor: 'default' }}>Website Development</span></li>
-                <li><span className="footer-link" style={{ cursor: 'default' }}>SEO Foundations</span></li>
-                <li><span className="footer-link" style={{ cursor: 'default' }}>Brand Identity</span></li>
-                <li><span className="footer-link" style={{ cursor: 'default' }}>Performance Optimization</span></li>
-                <li><span className="footer-link" style={{ cursor: 'default' }}>AI &amp; WhatsApp Automation</span></li>
+                <li><Link href="/services#website-design">Website Design</Link></li>
+                <li><Link href="/services#code-development">Code Development</Link></li>
+                <li><Link href="/services#seo-foundations">SEO Foundations</Link></li>
+                <li><Link href="/services#brand-identity">Brand Identity</Link></li>
+                <li><Link href="/services#performance-optimization">Performance Optimization</Link></li>
+                <li><Link href="/services#ai-whatsapp-automation">AI &amp; WhatsApp Automation</Link></li>
               </ul>
             </div>
 
-            <div className="footer-col">
-              <h4>Connect</h4>
+            <div className="footer-nav-col">
+              <span className="footer-col-title">Connect</span>
               <ul className="footer-social-list">
-                <li>
-                  <a 
-                    href="https://www.facebook.com/profile.php?id=61591909924608" 
-                    className="footer-social-link" 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    aria-label="Connect with Web It Up 24 on Facebook (opens in a new tab)"
-                  >
-                    <FaFacebookF className="footer-social-icon" aria-hidden="true" />
-                    <span>Facebook</span>
-                  </a>
-                </li>
-                <li>
-                  <a 
-                    href="https://www.instagram.com/webitup24/" 
-                    className="footer-social-link" 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    aria-label="Connect with Web It Up 24 on Instagram (opens in a new tab)"
-                  >
-                    <FaInstagram className="footer-social-icon" aria-hidden="true" />
-                    <span>Instagram</span>
-                  </a>
-                </li>
-                <li>
-                  <a 
-                    href="https://github.com/webitupofficial/Web-It-Up24" 
-                    className="footer-social-link" 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    aria-label="View Web It Up 24 on GitHub (opens in a new tab)"
-                  >
-                    <FaGithub className="footer-social-icon" aria-hidden="true" />
-                    <span>GitHub</span>
-                  </a>
-                </li>
+                {socialLinks.filter(l => l.enabled).map((link) => (
+                  <li key={link.label}>
+                    <a
+                      href={link.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="footer-social-item"
+                      aria-label={link.ariaLabel}
+                    >
+                      <span className="footer-social-icon" aria-hidden="true">
+                        {getSocialIcon(link.label)}
+                      </span>
+                      <span>{link.label}</span>
+                    </a>
+                  </li>
+                ))}
               </ul>
             </div>
           </div>
         </div>
 
         <div className="footer-bottom">
-          <p>&copy; {year} Web It Up 24. All rights reserved.</p>
-          <p className="footer-credit">Modern Digital Studio · Web It Up 24</p>
+          <p className="footer-copy">&copy; {year} Web It Up 24. All rights reserved.</p>
+          <p className="footer-note">International Web Design &amp; Development Studio</p>
         </div>
       </div>
     </footer>

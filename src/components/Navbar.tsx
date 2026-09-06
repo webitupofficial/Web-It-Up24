@@ -3,14 +3,14 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { getLocoScroll } from '@/animations/scroll';
+import ThemeToggle from './ThemeToggle';
 
 export default function Navbar() {
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
 
   useEffect(() => {
-    // Prevent background scrolling when mobile menu is open
     if (isOpen) {
       document.body.style.overflow = 'hidden';
     } else {
@@ -21,150 +21,128 @@ export default function Navbar() {
     };
   }, [isOpen]);
 
-  // Liquid-glass scroll listener
   useEffect(() => {
     const handleScroll = () => {
-      const nav = document.getElementById('navbar');
-      if (nav) {
-        if (window.scrollY > 30) {
-          nav.classList.add('scrolled');
-        } else {
-          nav.classList.remove('scrolled');
-        }
-      }
+      setIsScrolled(window.scrollY > 20);
     };
     window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll();
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const handleScrollTo = (e: React.MouseEvent<HTMLAnchorElement>, targetId: string) => {
-    if (pathname === '/') {
-      e.preventDefault();
-      const loco = getLocoScroll();
-      const target = document.querySelector(targetId);
-      if (loco && target) {
-        loco.scrollTo(target, { offset: -80 });
-      } else if (target) {
-        target.scrollIntoView({ behavior: 'smooth' });
-      }
-      setIsOpen(false);
-    }
-  };
+  const closeMenu = () => setIsOpen(false);
 
   return (
     <>
-      <nav className="navbar" id="navbar">
-        <Link href="/" className="logo">
-          Web It Up <span>24</span>
-        </Link>
-        <ul className="nav-links">
-          <li>
-            <Link 
-              href="/#about" 
-              onClick={(e) => handleScrollTo(e, '#about')}
-              data-scroll-to={pathname === '/' ? '' : undefined}
-            >
-              About
-            </Link>
-          </li>
-          <li>
-            <Link 
-              href="/#work" 
-              onClick={(e) => handleScrollTo(e, '#work')}
-              data-scroll-to={pathname === '/' ? '' : undefined}
-            >
-              Work
-            </Link>
-          </li>
-          <li>
-            <Link 
-              href="/#services" 
-              onClick={(e) => handleScrollTo(e, '#services')}
-              data-scroll-to={pathname === '/' ? '' : undefined}
-            >
-              Services
-            </Link>
-          </li>
-          <li>
-            <Link 
-              href="/#process" 
-              onClick={(e) => handleScrollTo(e, '#process')}
-              data-scroll-to={pathname === '/' ? '' : undefined}
-            >
-              Process
-            </Link>
-          </li>
-          <li>
-            <Link href="/blog" className={pathname.startsWith('/blog') ? 'active' : ''}>
-              Journal
-            </Link>
-          </li>
-          <li>
-            <Link href="/contact" className="nav-cta magnetic-btn">
-              Start a project
-            </Link>
-          </li>
-        </ul>
-        <button 
-          className={`menu-toggle ${isOpen ? 'active' : ''}`}
-          id="menu-toggle" 
-          aria-label="Toggle navigation"
-          onClick={() => setIsOpen(!isOpen)}
-        >
-          <span></span><span></span><span></span>
-        </button>
-      </nav>
+      <header className={`navbar ${isScrolled ? 'scrolled' : ''}`} id="navbar">
+        <div className="nav-container">
+          <Link href="/" className="logo" onClick={closeMenu}>
+            <span className="logo-mark">Web It Up</span>
+            <span className="logo-accent">24</span>
+          </Link>
 
-      {/* MOBILE NAV */}
-      <div className={`mobile-nav ${isOpen ? 'open' : ''}`} id="mobile-nav">
-        <ul className="mobile-links">
-          <li>
-            <Link 
-              href="/#about" 
-              onClick={(e) => { setIsOpen(false); handleScrollTo(e, '#about'); }}
-              data-scroll-to={pathname === '/' ? '' : undefined}
-            >
-              About
-            </Link>
-          </li>
-          <li>
-            <Link 
-              href="/#work" 
-              onClick={(e) => { setIsOpen(false); handleScrollTo(e, '#work'); }}
-              data-scroll-to={pathname === '/' ? '' : undefined}
-            >
-              Work
-            </Link>
-          </li>
-          <li>
-            <Link 
-              href="/#services" 
-              onClick={(e) => { setIsOpen(false); handleScrollTo(e, '#services'); }}
-              data-scroll-to={pathname === '/' ? '' : undefined}
-            >
-              Services
-            </Link>
-          </li>
-          <li>
-            <Link 
-              href="/#process" 
-              onClick={(e) => { setIsOpen(false); handleScrollTo(e, '#process'); }}
-              data-scroll-to={pathname === '/' ? '' : undefined}
-            >
-              Process
-            </Link>
-          </li>
-          <li>
-            <Link href="/blog" onClick={() => setIsOpen(false)}>
-              Journal
-            </Link>
-          </li>
-          <li>
-            <Link href="/contact" onClick={() => setIsOpen(false)}>
+          <nav className="nav-links-wrap" aria-label="Main navigation">
+            <ul className="nav-links">
+              <li>
+                <Link href="/" className={pathname === '/' ? 'active' : ''}>
+                  Home
+                </Link>
+              </li>
+              <li>
+                <Link href="/services" className={pathname === '/services' ? 'active' : ''}>
+                  Services
+                </Link>
+              </li>
+              <li>
+                <Link href="/#client-stories">
+                  Client Stories
+                </Link>
+              </li>
+              <li>
+                <Link href="/about" className={pathname === '/about' ? 'active' : ''}>
+                  About
+                </Link>
+              </li>
+              <li>
+                <Link href="/blog" className={pathname.startsWith('/blog') ? 'active' : ''}>
+                  Journal
+                </Link>
+              </li>
+              <li>
+                <Link href="/contact" className={pathname === '/contact' ? 'active' : ''}>
+                  Contact
+                </Link>
+              </li>
+            </ul>
+          </nav>
+
+          <div className="nav-actions">
+            <ThemeToggle />
+            <Link href="/contact" className="btn btn-primary nav-cta">
               Start a project
             </Link>
-          </li>
-        </ul>
+            <button
+              type="button"
+              className={`menu-toggle ${isOpen ? 'active' : ''}`}
+              id="menu-toggle"
+              aria-label={isOpen ? 'Close menu' : 'Open menu'}
+              aria-expanded={isOpen}
+              onClick={() => setIsOpen(!isOpen)}
+            >
+              <span></span>
+              <span></span>
+              <span></span>
+            </button>
+          </div>
+        </div>
+      </header>
+
+      {/* Mobile Drawer */}
+      <div className={`mobile-nav ${isOpen ? 'open' : ''}`} id="mobile-nav" aria-hidden={!isOpen}>
+        <div className="mobile-nav-inner">
+          <ul className="mobile-links">
+            <li>
+              <Link href="/" onClick={closeMenu}>
+                Home
+              </Link>
+            </li>
+            <li>
+              <Link href="/services" onClick={closeMenu}>
+                Services
+              </Link>
+            </li>
+            <li>
+              <Link href="/#client-stories" onClick={closeMenu}>
+                Client Stories
+              </Link>
+            </li>
+            <li>
+              <Link href="/about" onClick={closeMenu}>
+                About
+              </Link>
+            </li>
+            <li>
+              <Link href="/blog" onClick={closeMenu}>
+                Journal
+              </Link>
+            </li>
+            <li>
+              <Link href="/contact" onClick={closeMenu}>
+                Contact
+              </Link>
+            </li>
+          </ul>
+
+          <div className="mobile-nav-footer">
+            <div className="mobile-theme-row">
+              <span>Color mode:</span>
+              <ThemeToggle />
+            </div>
+            <Link href="/contact" className="btn btn-primary btn-block" onClick={closeMenu}>
+              Start a project
+            </Link>
+          </div>
+        </div>
       </div>
     </>
   );
