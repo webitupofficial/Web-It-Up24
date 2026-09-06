@@ -125,125 +125,7 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* ====== 3. SERVICES OVERVIEW ====== */}
-      <section className="services-section" id="services">
-        <div className="container">
-          <div className="section-header-center">
-            <span className="section-label">Core Capabilities</span>
-            <h2 className="section-title">Disciplines built for modern companies</h2>
-            <p className="section-subtitle">
-              We provide six core services tailored to startups, tech firms, and expanding international brands.
-            </p>
-          </div>
-
-          <div className="services-grid">
-            {servicesData.map((service) => (
-              <div key={service.id} className="service-card">
-                <div className="service-card-top">
-                  <span className="service-num">{service.number}</span>
-                  <div className="service-icon-wrap" aria-hidden="true">
-                    {getServiceIcon(service.id)}
-                  </div>
-                </div>
-                <h3>{service.title}</h3>
-                <p>{service.shortDesc}</p>
-                <div className="service-deliverables">
-                  {service.whatClientReceives.slice(0, 2).map((item, i) => (
-                    <div key={i} className="deliverable-item">
-                      <span className="deliverable-bullet" aria-hidden="true"></span>
-                      <span>{item}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            ))}
-          </div>
-
-          <div style={{ textAlign: 'center', marginTop: '3rem' }}>
-            <Link href="/services" className="btn btn-outline">
-              <span>View detailed services &amp; deliverables</span>
-              <FiArrowRight aria-hidden="true" />
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* ====== 4. SIX COMBINED CLIENT STORIES / TESTIMONIALS ====== */}
-      <section className="client-stories-section" id="client-stories">
-        <div className="container">
-          <div className="section-header-center">
-            <span className="section-label">Selected Work &amp; Feedback</span>
-            <h2 className="section-title">Client stories &amp; project outcomes</h2>
-            <p className="section-subtitle">
-              Explore how we help founders, tech teams, and international businesses build sharp, dependable digital systems.
-            </p>
-          </div>
-
-          <div className="stories-grid">
-            {clientStories.map((story) => (
-              <div key={story.id} className="story-card">
-                {/* Visual Preview / Placeholder Frame */}
-                <div className="story-preview">
-                  <div className="story-placeholder-screen">
-                    <span className="placeholder-badge">Project Preview</span>
-                    <span className="placeholder-meta">{story.industry}</span>
-                  </div>
-                </div>
-
-                {/* Content Details */}
-                <div className="story-content">
-                  <div className="story-meta-tags">
-                    <span className="story-industry">{story.industry}</span>
-                    {story.services.map((svc, idx) => (
-                      <span key={idx} className="story-service-tag">{svc}</span>
-                    ))}
-                  </div>
-
-                  <h3 className="story-title">{story.projectName}</h3>
-                  <p className="story-desc">{story.description}</p>
-
-                  {/* Combined Testimonial Box */}
-                  <div className="story-quote-box">
-                    <p className="story-quote">&ldquo;{story.testimonial}&rdquo;</p>
-                    <div className="story-client">
-                      <span className="client-name">{story.clientName}</span>
-                      <span className="client-role">{story.clientRole}</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ====== 5. PROCESS SECTION ====== */}
-      <section className="process-section" id="process">
-        <div className="container">
-          <div className="section-header-center">
-            <span className="section-label">How We Work</span>
-            <h2 className="section-title">A transparent five-step delivery model</h2>
-            <p className="section-subtitle">
-              Clear stages, open communication, and predictable milestones from initial concept to launch.
-            </p>
-          </div>
-
-          <div className="process-grid">
-            {processSteps.map((step) => (
-              <div key={step.number} className="process-card">
-                <div className="process-step-num">{step.number}</div>
-                <h3>{step.title}</h3>
-                <p>{step.desc}</p>
-                <div className="process-deliverable-note">
-                  <strong>Output:</strong> {step.deliverables}
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ====== 6. ABOUT / AGENCY POSITIONING ====== */}
+      {/* ====== 3. ABOUT THE STUDIO (ABOVE CORE CAPABILITIES) ====== */}
       <section className="about-section" id="about">
         <div className="container">
           <div className="about-split">
@@ -295,6 +177,124 @@ export default async function HomePage() {
                 <div className="stat-headline">Next.js · React · TypeScript · Sanity</div>
               </div>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ====== 4. CORE CAPABILITIES (SERVICES OVERVIEW) ====== */}
+      <section className="services-section" id="services">
+        <div className="container">
+          <div className="section-header-center">
+            <span className="section-label">Core Capabilities</span>
+            <h2 className="section-title">Disciplines built for modern companies</h2>
+            <p className="section-subtitle">
+              We provide six core services tailored to startups, tech firms, and expanding international brands.
+            </p>
+          </div>
+
+          <div className="services-grid">
+            {servicesData.map((service) => (
+              <div key={service.id} className="service-card">
+                <div className="service-card-top">
+                  <span className="service-num">{service.number}</span>
+                  <div className="service-icon-wrap" aria-hidden="true">
+                    {getServiceIcon(service.id)}
+                  </div>
+                </div>
+                <h3>{service.title}</h3>
+                <p>{service.shortDesc}</p>
+                <div className="service-deliverables">
+                  {service.whatClientReceives.slice(0, 2).map((item, i) => (
+                    <div key={i} className="deliverable-item">
+                      <span className="deliverable-bullet" aria-hidden="true"></span>
+                      <span>{item}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div style={{ textAlign: 'center', marginTop: '3rem' }}>
+            <Link href="/services" className="btn btn-outline">
+              <span>View detailed services &amp; deliverables</span>
+              <FiArrowRight aria-hidden="true" />
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* ====== 5. HOW WE WORK (EXCHANGED: PLACED BEFORE SELECTED WORK) ====== */}
+      <section className="process-section" id="process">
+        <div className="container">
+          <div className="section-header-center">
+            <span className="section-label">How We Work</span>
+            <h2 className="section-title">A transparent five-step delivery model</h2>
+            <p className="section-subtitle">
+              Clear stages, open communication, and predictable milestones from initial concept to launch.
+            </p>
+          </div>
+
+          <div className="process-grid">
+            {processSteps.map((step) => (
+              <div key={step.number} className="process-card">
+                <div className="process-step-num">{step.number}</div>
+                <h3>{step.title}</h3>
+                <p>{step.desc}</p>
+                <div className="process-deliverable-note">
+                  <strong>Output:</strong> {step.deliverables}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ====== 6. SELECTED WORK & FEEDBACK (EXCHANGED: PLACED AFTER HOW WE WORK) ====== */}
+      <section className="client-stories-section" id="client-stories">
+        <div className="container">
+          <div className="section-header-center">
+            <span className="section-label">Selected Work &amp; Feedback</span>
+            <h2 className="section-title">Client stories &amp; project outcomes</h2>
+            <p className="section-subtitle">
+              Explore how we help founders, tech teams, and international businesses build sharp, dependable digital systems.
+            </p>
+          </div>
+
+          <div className="stories-grid">
+            {clientStories.map((story) => (
+              <div key={story.id} className="story-card">
+                {/* Visual Preview / Placeholder Frame */}
+                <div className="story-preview">
+                  <div className="story-placeholder-screen">
+                    <span className="placeholder-badge">Project Preview</span>
+                    <span className="placeholder-meta">{story.industry}</span>
+                  </div>
+                </div>
+
+                {/* Content Details */}
+                <div className="story-content">
+                  <div className="story-meta-tags">
+                    <span className="story-industry">{story.industry}</span>
+                    {story.services.map((svc, idx) => (
+                      <span key={idx} className="story-service-tag">{svc}</span>
+                    ))}
+                  </div>
+
+                  <h3 className="story-title">{story.projectName}</h3>
+                  <p className="story-desc">{story.description}</p>
+
+                  {/* Combined Testimonial Box */}
+                  <div className="story-quote-box">
+                    <p className="story-quote">&ldquo;{story.testimonial}&rdquo;</p>
+                    <div className="story-client">
+                      <span className="client-name">{story.clientName}</span>
+                      <span className="client-role">{story.clientRole}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </section>

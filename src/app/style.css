@@ -608,7 +608,9 @@ section {
 
 /* --- SERVICES OVERVIEW SECTION --- */
 .services-section {
-  background: var(--background);
+  background: var(--surface);
+  border-top: 1px solid var(--border-subtle);
+  border-bottom: 1px solid var(--border-subtle);
 }
 
 .services-grid {
@@ -618,7 +620,7 @@ section {
 }
 
 .service-card {
-  background: var(--surface);
+  background: var(--background);
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
   padding: 2.2rem 1.8rem;
@@ -902,9 +904,7 @@ section {
 
 /* --- ABOUT / AGENCY POSITIONING SECTION --- */
 .about-section {
-  background: var(--surface);
-  border-top: 1px solid var(--border-subtle);
-  border-bottom: 1px solid var(--border-subtle);
+  background: var(--background);
 }
 
 .about-split {
@@ -965,10 +965,11 @@ section {
 }
 
 .about-side-panel {
-  background: var(--surface-muted);
+  background: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
   padding: 2.5rem;
+  box-shadow: var(--shadow-sm);
 }
 
 .about-panel-stat {
