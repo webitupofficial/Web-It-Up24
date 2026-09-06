@@ -3,6 +3,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { getLocoScroll } from '@/animations/scroll';
+import { FaFacebookF, FaInstagram, FaGithub } from 'react-icons/fa6';
 
 export default function Home() {
   const handleScrollTo = (e: React.MouseEvent<HTMLAnchorElement>, targetId: string) => {
@@ -359,6 +360,43 @@ export default function Home() {
                 <polyline points="12 5 19 12 12 19" />
               </svg>
             </Link>
+
+            {/* ====== CONNECT WITH US ====== */}
+            <div className="cta-connect-panel">
+              <span className="connect-eyebrow">Connect With Us</span>
+              <div className="connect-social-links">
+                <a
+                  href="https://www.facebook.com/profile.php?id=61591909924608"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="connect-social-pill magnetic-btn"
+                  aria-label="Connect with Web It Up 24 on Facebook (opens in new tab)"
+                >
+                  <FaFacebookF className="connect-icon" aria-hidden="true" />
+                  <span>Facebook</span>
+                </a>
+                <a
+                  href="https://www.instagram.com/webitup24/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="connect-social-pill magnetic-btn"
+                  aria-label="Connect with Web It Up 24 on Instagram (opens in new tab)"
+                >
+                  <FaInstagram className="connect-icon" aria-hidden="true" />
+                  <span>Instagram</span>
+                </a>
+                <a
+                  href="https://github.com/webitupofficial/Web-It-Up24"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="connect-social-pill magnetic-btn"
+                  aria-label="View Web It Up 24 on GitHub (opens in new tab)"
+                >
+                  <FaGithub className="connect-icon" aria-hidden="true" />
+                  <span>GitHub</span>
+                </a>
+              </div>
+            </div>
           </div>
         </div>
       </section>

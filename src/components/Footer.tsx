@@ -4,6 +4,7 @@ import React from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { getLocoScroll } from '@/animations/scroll';
+import { FaFacebookF, FaInstagram, FaGithub } from 'react-icons/fa6';
 
 export default function Footer() {
   const pathname = usePathname();
@@ -103,26 +104,42 @@ export default function Footer() {
             </div>
 
             <div className="footer-col">
-              <h4>Dispatches</h4>
-              <ul>
+              <h4>Connect</h4>
+              <ul className="footer-social-list">
                 <li>
-                  <a href="https://twitter.com" className="footer-link" target="_blank" rel="noopener noreferrer">
-                    Twitter / X
+                  <a 
+                    href="https://www.facebook.com/profile.php?id=61591909924608" 
+                    className="footer-social-link" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    aria-label="Connect with Web It Up 24 on Facebook (opens in a new tab)"
+                  >
+                    <FaFacebookF className="footer-social-icon" aria-hidden="true" />
+                    <span>Facebook</span>
                   </a>
                 </li>
                 <li>
-                  <a href="https://instagram.com" className="footer-link" target="_blank" rel="noopener noreferrer">
-                    Instagram
+                  <a 
+                    href="https://www.instagram.com/webitup24/" 
+                    className="footer-social-link" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    aria-label="Connect with Web It Up 24 on Instagram (opens in a new tab)"
+                  >
+                    <FaInstagram className="footer-social-icon" aria-hidden="true" />
+                    <span>Instagram</span>
                   </a>
                 </li>
                 <li>
-                  <a href="https://linkedin.com" className="footer-link" target="_blank" rel="noopener noreferrer">
-                    LinkedIn
-                  </a>
-                </li>
-                <li>
-                  <a href="https://youtube.com" className="footer-link" target="_blank" rel="noopener noreferrer">
-                    YouTube
+                  <a 
+                    href="https://github.com/webitupofficial/Web-It-Up24" 
+                    className="footer-social-link" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    aria-label="View Web It Up 24 on GitHub (opens in a new tab)"
+                  >
+                    <FaGithub className="footer-social-icon" aria-hidden="true" />
+                    <span>GitHub</span>
                   </a>
                 </li>
               </ul>
