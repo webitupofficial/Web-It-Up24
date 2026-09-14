@@ -13,9 +13,19 @@ import {
   FiZap,
   FiMessageSquare,
   FiCheckCircle,
+  FiExternalLink,
+  FiStar,
 } from 'react-icons/fi';
 
 export const revalidate = 60; // ISR for Sanity posts
+
+const getDomain = (url: string) => {
+  try {
+    return new URL(url).hostname.replace(/^www\./, '');
+  } catch {
+    return url;
+  }
+};
 
 export default async function HomePage() {
   const posts: Post[] = await getPosts().catch(() => []);
@@ -255,46 +265,113 @@ export default async function HomePage() {
         <div className="container">
           <div className="section-header-center">
             <span className="section-label">Selected Work &amp; Feedback</span>
-            <h2 className="section-title">Client stories &amp; project outcomes</h2>
+            <h2 className="section-title">Client Stories &amp; Testimonials</h2>
             <p className="section-subtitle">
-              Explore how we help founders, tech teams, and international businesses build sharp, dependable digital systems.
+              Authentic reviews and project outcomes from founders and leaders who trust Webitup24 for mission-critical web engineering.
             </p>
           </div>
 
           <div className="stories-grid">
-            {clientStories.map((story) => (
-              <div key={story.id} className="story-card">
-                {/* Visual Preview / Placeholder Frame */}
-                <div className="story-preview">
-                  <div className="story-placeholder-screen">
-                    <span className="placeholder-badge">Project Preview</span>
-                    <span className="placeholder-meta">{story.industry}</span>
+            {clientStories.map((story) => {
+              const domain = story.websiteUrl ? getDomain(story.websiteUrl) : '';
+
+              return (
+                <div key={story.id} className="story-card">
+                  {/* Visual Preview / Browser Frame */}
+                  <div className="story-preview">
+                    <div className="story-browser-mockup">
+                      <div className="browser-mockup-header">
+                        <div className="browser-dots" aria-hidden="true">
+                          <span className="mock-dot mock-dot-red"></span>
+                          <span className="mock-dot mock-dot-yellow"></span>
+                          <span className="mock-dot mock-dot-green"></span>
+                        </div>
+                        <div className="browser-address-bar">
+                          <span className="browser-lock" aria-hidden="true">🔒</span>
+                          <span className="browser-host">{domain || 'webitup24.com'}</span>
+                        </div>
+                        {story.websiteUrl && (
+                          <a
+                            href={story.websiteUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="browser-visit-btn"
+                            aria-label={`Visit live website of ${story.projectName}`}
+                          >
+                            <span>Live Site</span>
+                            <FiExternalLink className="visit-icon" />
+                          </a>
+                        )}
+                      </div>
+
+                      <div className="story-placeholder-screen">
+                        <div className="screen-badge-row">
+                          <span className="placeholder-badge">{story.metrics || 'Featured Project'}</span>
+                          <span className="placeholder-meta">{story.industry}</span>
+                        </div>
+                        <div className="screen-highlight-title">{story.projectName}</div>
+                      </div>
+                    </div>
                   </div>
-                </div>
 
-                {/* Content Details */}
-                <div className="story-content">
-                  <div className="story-meta-tags">
-                    <span className="story-industry">{story.industry}</span>
-                    {story.services.map((svc, idx) => (
-                      <span key={idx} className="story-service-tag">{svc}</span>
-                    ))}
-                  </div>
+                  {/* Content Details */}
+                  <div className="story-content">
+                    <div className="story-meta-tags">
+                      <span className="story-industry">{story.industry}</span>
+                      {story.services.map((svc, idx) => (
+                        <span key={idx} className="story-service-tag">{svc}</span>
+                      ))}
+                    </div>
 
-                  <h3 className="story-title">{story.projectName}</h3>
-                  <p className="story-desc">{story.description}</p>
+                    {story.websiteUrl ? (
+                      <a
+                        href={story.websiteUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="story-title-link"
+                      >
+                        <h3 className="story-title">
+                          {story.projectName}
+                          <FiExternalLink className="title-ext-icon" />
+                        </h3>
+                      </a>
+                    ) : (
+                      <h3 className="story-title">{story.projectName}</h3>
+                    )}
 
-                  {/* Combined Testimonial Box */}
-                  <div className="story-quote-box">
-                    <p className="story-quote">&ldquo;{story.testimonial}&rdquo;</p>
-                    <div className="story-client">
-                      <span className="client-name">{story.clientName}</span>
-                      <span className="client-role">{story.clientRole}</span>
+                    <p className="story-desc">{story.description}</p>
+
+                    {/* Combined Testimonial Box */}
+                    <div className="story-quote-box">
+                      <div className="quote-box-header">
+                        <div className="quote-rating" aria-label="5 out of 5 stars rating">
+                          {[...Array(5)].map((_, i) => (
+                            <FiStar key={i} className="quote-star-icon" />
+                          ))}
+                        </div>
+                        <span className="quote-verified-badge">
+                          <FiCheckCircle className="badge-icon" /> Verified Client
+                        </span>
+                      </div>
+
+                      <p className="story-quote">&ldquo;{story.testimonial}&rdquo;</p>
+
+                      <div className="story-client">
+                        {story.avatarInitials && (
+                          <div className="client-avatar" aria-hidden="true">
+                            {story.avatarInitials}
+                          </div>
+                        )}
+                        <div className="client-info">
+                          <span className="client-name">{story.clientName}</span>
+                          <span className="client-role">{story.clientRole}</span>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
       </section>
