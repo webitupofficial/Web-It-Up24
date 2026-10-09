@@ -2,3 +2,4 @@
 leads.xlsx
 *.csv
 __pycache__/
+~$*
