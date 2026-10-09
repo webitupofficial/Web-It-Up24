@@ -1,0 +1,4 @@
+# Lead data and logs contain phone numbers: never commit them.
+leads.xlsx
+*.csv
+__pycache__/
