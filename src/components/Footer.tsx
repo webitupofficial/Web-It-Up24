@@ -67,6 +67,33 @@ export default function Footer() {
             </div>
 
             <div className="footer-nav-col">
+              <span className="footer-col-title">Legal &amp; DPDP</span>
+              <ul>
+                <li><Link href="/privacy-policy">Privacy Notice (DPDP)</Link></li>
+                <li><Link href="/terms">Terms of Service</Link></li>
+                <li><Link href="/dpdp-rights">Exercise DPDP Rights</Link></li>
+                <li>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      if (typeof window !== 'undefined') {
+                        window.dispatchEvent(new CustomEvent('open-cookie-preferences'));
+                      }
+                    }}
+                    className="footer-link-btn"
+                  >
+                    Cookie Preferences
+                  </button>
+                </li>
+                <li>
+                  <a href="mailto:privacy@webitup24.com" title="Grievance Redressal Officer">
+                    Grievance Officer
+                  </a>
+                </li>
+              </ul>
+            </div>
+
+            <div className="footer-nav-col">
               <span className="footer-col-title">Connect</span>
               <ul className="footer-social-list">
                 {socialLinks.filter(l => l.enabled).map((link) => (
@@ -91,8 +118,29 @@ export default function Footer() {
         </div>
 
         <div className="footer-bottom">
-          <p className="footer-copy">&copy; {year} Web It Up 24. All rights reserved.</p>
-          <p className="footer-note">International Web Design &amp; Development Studio</p>
+          <div className="footer-bottom-left">
+            <p className="footer-copy">&copy; {year} Web It Up 24. All rights reserved.</p>
+            <p className="footer-note">Compliant with India&apos;s Digital Personal Data Protection (DPDP) Act, 2023</p>
+          </div>
+          <div className="footer-bottom-links">
+            <Link href="/privacy-policy">Privacy</Link>
+            <span aria-hidden="true">&bull;</span>
+            <Link href="/terms">Terms</Link>
+            <span aria-hidden="true">&bull;</span>
+            <Link href="/dpdp-rights">DPDP Rights</Link>
+            <span aria-hidden="true">&bull;</span>
+            <button
+              type="button"
+              onClick={() => {
+                if (typeof window !== 'undefined') {
+                  window.dispatchEvent(new CustomEvent('open-cookie-preferences'));
+                }
+              }}
+              className="footer-inline-link-btn"
+            >
+              Cookies
+            </button>
+          </div>
         </div>
       </div>
     </footer>

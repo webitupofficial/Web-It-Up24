@@ -66,18 +66,42 @@ export default function RootLayout({
             `,
           }}
         />
-        {/* Google tag (gtag.js) */}
-        <script async src="https://www.googletagmanager.com/gtag/js?id=G-5R5T3YHNQX"></script>
+        {/* Google Consent Mode v2 & Google tag (gtag.js) - DPDP Act 2023 Compliant */}
         <script
           dangerouslySetInnerHTML={{
             __html: `
               window.dataLayer = window.dataLayer || [];
               function gtag(){dataLayer.push(arguments);}
+              // Default all optional tracking to denied under India DPDP Act 2023
+              gtag('consent', 'default', {
+                'analytics_storage': 'denied',
+                'ad_storage': 'denied',
+                'ad_user_data': 'denied',
+                'ad_personalization': 'denied',
+                'wait_for_update': 500
+              });
+              try {
+                var savedConsent = localStorage.getItem('webitup24-cookie-consent');
+                if (savedConsent) {
+                  var parsed = JSON.parse(savedConsent);
+                  if (parsed && parsed.analytics) {
+                    gtag('consent', 'update', { 'analytics_storage': 'granted' });
+                  }
+                  if (parsed && parsed.marketing) {
+                    gtag('consent', 'update', {
+                      'ad_storage': 'granted',
+                      'ad_user_data': 'granted',
+                      'ad_personalization': 'granted'
+                    });
+                  }
+                }
+              } catch (e) {}
               gtag('js', new Date());
               gtag('config', 'G-5R5T3YHNQX');
             `,
           }}
         />
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-5R5T3YHNQX"></script>
       </head>
       <body>
         {children}

@@ -1,14 +1,17 @@
 'use client';
 
 import React, { useState } from 'react';
+import Link from 'next/link';
 import { useForm, ValidationError } from '@formspree/react';
 import { socialLinks } from '@/lib/social';
 import { servicesData } from '@/lib/services';
-import { FiMail, FiGlobe, FiClock, FiCheck, FiArrowRight, FiSend } from 'react-icons/fi';
+import { FiMail, FiGlobe, FiClock, FiCheck, FiArrowRight, FiSend, FiShield } from 'react-icons/fi';
 import { FaFacebookF, FaInstagram, FaGithub } from 'react-icons/fa6';
 
 export default function ContactPage() {
   const [state, handleSubmit, reset] = useForm('mykqjakg');
+  const [consentDPDP, setConsentDPDP] = useState(false);
+  const [consentError, setConsentError] = useState('');
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -28,6 +31,8 @@ export default function ContactPage() {
 
   const handleReset = () => {
     reset();
+    setConsentDPDP(false);
+    setConsentError('');
     setFormData({
       firstName: '',
       lastName: '',
@@ -37,6 +42,16 @@ export default function ContactPage() {
       timeline: '',
       message: '',
     });
+  };
+
+  const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    if (!consentDPDP) {
+      e.preventDefault();
+      setConsentError('Affirmative consent is required to process your inquiry under the DPDP Act, 2023.');
+      return;
+    }
+    setConsentError('');
+    handleSubmit(e);
   };
 
   const getSocialIcon = (label: string) => {
@@ -139,7 +154,7 @@ export default function ContactPage() {
                   </button>
                 </div>
               ) : (
-                <form onSubmit={handleSubmit} className="contact-form" noValidate>
+                <form onSubmit={handleFormSubmit} className="contact-form" noValidate>
                   <div className="form-row-2">
                     <div className="form-field">
                       <label htmlFor="firstName" className="form-label">
@@ -272,6 +287,47 @@ export default function ContactPage() {
                       required
                     />
                     <ValidationError prefix="Message" field="message" errors={state.errors} className="validation-error" />
+                  </div>
+
+                  <div className="dpdp-form-consent-box">
+                    <label className="checkbox-container">
+                      <input
+                        type="checkbox"
+                        id="dpdp_consent"
+                        name="dpdp_consent"
+                        checked={consentDPDP}
+                        onChange={(e) => {
+                          setConsentDPDP(e.target.checked);
+                          if (e.target.checked) setConsentError('');
+                        }}
+                        required
+                      />
+                      <span className="checkbox-label-text">
+                        <strong>DPDP Act Statutory Consent:</strong> I affirmatively consent to Web It Up 24 processing my submitted contact details solely to evaluate, scope, and respond to this project inquiry in accordance with the{' '}
+                        <Link href="/privacy-policy" className="cookie-link" target="_blank">
+                          Privacy Policy
+                        </Link>{' '}
+                        and India&apos;s Digital Personal Data Protection Act, 2023. I understand I may withdraw this consent at any time.
+                      </span>
+                    </label>
+                    {consentError && (
+                      <p className="validation-error" style={{ marginTop: '0.4rem', color: '#e5484d', fontSize: '0.85rem' }}>
+                        {consentError}
+                      </p>
+                    )}
+                    <div className="dpdp-form-micro-notice">
+                      <FiShield aria-hidden="true" />
+                      <span>
+                        Notice under Sec. 5 DPDP Act: You can exercise rights of access, correction, erasure, or contact the Grievance Officer anytime via our{' '}
+                        <Link href="/dpdp-rights" className="cookie-link">
+                          DPDP Rights Portal
+                        </Link>{' '}
+                        or at{' '}
+                        <a href="mailto:privacy@webitup24.com" className="cookie-link">
+                          privacy@webitup24.com
+                        </a>.
+                      </span>
+                    </div>
                   </div>
 
                   <button
